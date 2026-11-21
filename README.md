@@ -21,11 +21,11 @@ The main challenge was balancing a detailed program editor with a print layout t
 
 ## AI summary
 
-AI was used to help plan the component structure, refine the interaction copy, generate the initial React and CSS implementation, and review the code for accessibility, responsive behavior, and type-safety issues. I made the final product decisions, adjusted the sample meeting content for Mutungo Ward, and validated the production build.
+AI was used as a support tool to brainstorm the layout, clarify the React state organization, and suggest improvements to the wording and responsive styling. I reviewed and adapted the suggestions, made the final design and implementation decisions, and tested the finished project with a production build.
 
 ## Submission links
 
 - GitHub repository: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner
 - Required branch: `peer-code-review`
 - Pull request: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner/pull/1
-- Vercel preview: pending Vercel account authentication; import the `peer-code-review` branch from the repository above
+- Vercel preview: https://mutungo-sacrament-planner.vercel.app/
