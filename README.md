@@ -21,7 +21,7 @@ The main challenge was balancing a detailed program editor with a print layout t
 
 ## AI summary
 
-AI was used as a support tool to brainstorm the layout, clarify the React state organization, and suggest improvements to the wording and responsive styling. I reviewed and adapted the suggestions, made the final design and implementation decisions, and tested the finished project with a production build.
+I used AI as a learning aid during development. I asked questions about React component structure, state management, CSS layout, local storage, and deployment so I could better understand the concepts and make informed decisions. I then reviewed the suggestions, adapted the content and design for Mutungo Ward, and tested the finished project with a production build and deployed preview.
 
 ## Submission links
 
