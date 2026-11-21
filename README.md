@@ -27,5 +27,5 @@ AI was used to help plan the component structure, refine the interaction copy, g
 
 - GitHub repository: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner
 - Required branch: `peer-code-review`
-- Pull request: add after opening `peer-code-review` against `main`
-- Vercel preview: add after connecting the `peer-code-review` branch to Vercel
+- Pull request: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner/pull/1
+- Vercel preview: pending Vercel account authentication; import the `peer-code-review` branch from the repository above
