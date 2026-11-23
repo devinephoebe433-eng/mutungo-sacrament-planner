@@ -15,6 +15,8 @@ Build for production with `npm run build`.
 
 I chose a single-page React state model with a small, explicit `PlannerState` object rather than spreading meeting data across many unrelated form components or introducing a backend. The alternative would have been a multi-route flow or a database-backed API, but this assignment is a focused planning tool where the fastest path to a dependable review experience is local-first state with `localStorage` persistence. The program is an ordered array, so moving an item up or down is predictable, the preview reads from exactly the same source of truth as the editor, and a refresh does not lose a user's work. This approach also keeps the app easy to deploy as a static frontend while leaving room to add accounts and shared ward templates later.
 
+The planner now also supports saving the current order of service as a reusable local template. This keeps a carefully arranged meeting sequence available for future Sundays without changing the current meeting details.
+
 ## Challenge summary
 
 The main challenge was balancing a detailed program editor with a print layout that still feels simple on a smaller screen. I handled that by using one shared data model, inline editing for the common fields, explicit move controls instead of fragile drag-and-drop, and a dedicated print stylesheet that removes editor chrome without requiring a separate print-only data path.
@@ -25,6 +27,6 @@ AI was used to help plan the component structure, refine the interaction copy, g
 
 ## Submission links
 
-- GitHub repository: add after repository creation
-- Pull request: add after opening `peer-code-review` against `main`
-- Vercel preview: add after connecting the `peer-code-review` branch to Vercel
+- GitHub repository: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner
+- Pull request: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner/pull/1
+- Vercel production: https://mutungo-sacrament-planner.vercel.app
