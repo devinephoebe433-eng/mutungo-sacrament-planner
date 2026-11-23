@@ -1,0 +1,1 @@
+export default function NewMeetingPage() { return <main className="shell"><p className="eyebrow">Leader tools</p><h1>Create Meeting — Coming in Week 04</h1><p className="lede">The database and public meeting records are ready. Meeting forms will be added next week.</p></main> }
