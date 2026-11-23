@@ -1,1 +1,1 @@
-{"routes":[{"path":"/","title":"Mutungo Ward Sacrament Planner"}]}
+{"routes":[{"path":"/","title":"Home"},{"path":"/meetings","title":"Meetings"},{"path":"/meetings/current","title":"Current meeting"},{"path":"/meetings/:id","title":"Meeting details"},{"path":"/meetings/new","title":"Create meeting"},{"path":"/meetings/:id/edit","title":"Edit meeting"}]}

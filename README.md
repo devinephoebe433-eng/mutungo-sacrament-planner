@@ -1,31 +1,11 @@
 # Mutungo Ward Sacrament Meeting Planner
 
-A focused, browser-based planner for preparing a clear sacrament meeting program. The app keeps meeting details, speakers, musical numbers, prayers, and program order in one calm workspace, then turns the finished plan into a print-ready program.
+Week 03 implementation for WDD 430. The app uses the Next.js App Router, Neon PostgreSQL, route groups, URL-based search, and five-item pagination.
 
-## Run locally
+## Local setup
 
-```bash
-npm install
-npm run dev
-```
+1. Create a Neon database and run `lib/schema.sql` in its SQL editor.
+2. Copy `.env.example` to `.env.local` and add the database connection string.
+3. Run `npm install`, then `npm run dev`.
 
-Build for production with `npm run build`.
-
-## Architectural decision / reflection
-
-I chose a single-page React state model with a small, explicit `PlannerState` object rather than spreading meeting data across many unrelated form components or introducing a backend. The alternative would have been a multi-route flow or a database-backed API, but this assignment is a focused planning tool where the fastest path to a dependable review experience is local-first state with `localStorage` persistence. The program is an ordered array, so moving an item up or down is predictable, the preview reads from exactly the same source of truth as the editor, and a refresh does not lose a user's work. This approach also keeps the app easy to deploy as a static frontend while leaving room to add accounts and shared ward templates later.
-
-## Challenge summary
-
-The main challenge was balancing a detailed program editor with a print layout that still feels simple on a smaller screen. I handled that by using one shared data model, inline editing for the common fields, explicit move controls instead of fragile drag-and-drop, and a dedicated print stylesheet that removes editor chrome without requiring a separate print-only data path.
-
-## AI summary
-
-I used AI as a learning aid during development. I asked questions about React component structure, state management, CSS layout, local storage, and deployment so I could better understand the concepts and make informed decisions. I then reviewed the suggestions, adapted the content and design for Mutungo Ward, and tested the finished project with a production build and deployed preview.
-
-## Submission links
-
-- GitHub repository: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner
-- Required branch: `peer-code-review`
-- Pull request: https://github.com/devinephoebe433-eng/mutungo-sacrament-planner/pull/1
-- Vercel preview: https://mutungo-sacrament-planner.vercel.app/
+The `peer-code-review` branch contains the assignment work. `.env.local` is ignored and must never be committed.
