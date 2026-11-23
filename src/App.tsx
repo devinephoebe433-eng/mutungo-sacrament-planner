@@ -209,7 +209,7 @@ function AddMenu({ type, onClose, onAdd }: { type: 'speaker' | 'music'; onClose:
   }
   return (
     <form className="add-menu" onSubmit={submit}>
-      <div className="add-menu-header"><div><strong>{isSpeaker ? 'Add a speaker' : 'Add a musical number'}</strong><p>{isSpeaker ? 'Keep the topic visible for the conducting leader.' : 'Add the performers and selection title.'}</p></div><button type="button" className="icon-button" onClick={onClose} aria-label="Close"><Icon name="x" size={16} /></button></div>
+        <div className="add-menu-header"><div><strong>{isSpeaker ? 'Add a speaker' : 'Add a musical number'}</strong><p>{isSpeaker ? 'Keep the topic visible for the conducting leader.' : 'Add the performers and selection title.'}</p></div><button type="button" className="icon-button" onClick={onClose} aria-label="Close"><Icon name="x" size={16} /></button></div>
       <label><span>{isSpeaker ? 'Speaker name' : 'Performers'}</span><input autoFocus value={person} onChange={(event) => setPerson(event.target.value)} placeholder={isSpeaker ? 'e.g. Sister Anna Namuli' : 'e.g. Relief Society choir'} /></label>
       <label><span>{isSpeaker ? 'Topic or remarks' : 'Selection title'}</span><input value={detail} onChange={(event) => setDetail(event.target.value)} placeholder={isSpeaker ? 'e.g. Faith in the Savior' : 'e.g. I Know That My Redeemer Lives'} /></label>
       <div className="add-menu-actions"><button type="button" className="button button-ghost button-small" onClick={onClose}>Cancel</button><button type="submit" className="button button-primary button-small" disabled={!person.trim() || !detail.trim()}><Icon name="plus" size={15} /> Add to program</button></div>
@@ -349,11 +349,16 @@ function App() {
     setToast('Sample program restored.')
   }
 
+  const saveOrderTemplate = () => {
+    window.localStorage.setItem(`${STORAGE_KEY}-template`, JSON.stringify(planner.program))
+    setToast('This order is saved as a reusable template.')
+  }
+
   return (
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-lockup"><div className="brand-mark">MW</div><div><span>Mutungo Ward</span><strong>Sacrament planner</strong></div></div>
-        <div className="topbar-actions"><span className="save-status"><span className="save-dot" />{lastSaved}</span><button className="button button-primary button-top" type="button" onClick={() => setIsPreview(true)}><Icon name="layers" size={16} /> Preview program</button><button className="avatar" type="button" aria-label="Ward planner profile">PD</button></div>
+        <div className="topbar-actions"><span className="save-status" role="status" aria-live="polite"><span className="save-dot" />{lastSaved}</span><button className="button button-primary button-top" type="button" onClick={() => setIsPreview(true)}><Icon name="layers" size={16} /> Preview program</button><button className="avatar" type="button" aria-label="Ward planner profile">PD</button></div>
       </header>
       <div className="workspace">
         <aside className="sidebar">
@@ -363,7 +368,7 @@ function App() {
           <div className="sidebar-footer"><div className="sidebar-tip"><Icon name="sparkle" size={16} /><p><strong>Keep it clear</strong><span>A simple order helps the congregation worship with less distraction.</span></p></div><button className="reset-button" type="button" onClick={resetPlanner}><Icon name="refresh" size={14} /> Restore sample</button></div>
         </aside>
         <main className="main-content">{isPreview ? <Preview planner={planner} onBack={() => setIsPreview(false)} onPrint={handlePrint} onCopy={copySummary} /> : <>
-          <div className="page-intro"><div><span className="eyebrow">WARD PROGRAM <span className="eyebrow-slash">/</span> SUNDAY PLAN</span><h1>Prepare a meaningful meeting.</h1><p>Set the details, shape the order, and leave with a program you can trust.</p></div><div className="intro-actions"><span className="plan-progress"><span className="progress-ring"><span>{planner.program.length}</span></span><span><strong>{orderedSpeakers} speakers</strong><small>{musicCount} musical number{musicCount === 1 ? '' : 's'}</small></span></span><button className="button button-ghost" type="button" onClick={handlePrint}><Icon name="printer" size={16} /> Print</button></div></div>
+          <div className="page-intro"><div><span className="eyebrow">WARD PROGRAM <span className="eyebrow-slash">/</span> SUNDAY PLAN</span><h1>Prepare a meaningful meeting.</h1><p>Set the details, shape the order, and leave with a program you can trust.</p></div><div className="intro-actions"><span className="plan-progress"><span className="progress-ring"><span>{planner.program.length}</span></span><span><strong>{orderedSpeakers} speakers</strong><small>{musicCount} musical number{musicCount === 1 ? '' : 's'}</small></span></span><button className="button button-ghost" type="button" onClick={saveOrderTemplate}><Icon name="copy" size={16} /> Save order template</button><button className="button button-ghost" type="button" onClick={handlePrint}><Icon name="printer" size={16} /> Print</button></div></div>
           <div className="editor-grid">
             <div className="editor-column">
               <section className="section-card details-card"><div className="section-heading"><div><span className="section-kicker">01 · Foundations</span><h2>Meeting details</h2><p>Start with the information that anchors the program.</p></div><span className="section-icon"><Icon name="calendar" size={19} /></span></div><div className="field-grid"><Field label="Date" value={planner.meeting.date} onChange={(value) => updateMeeting('date', value)} type="date" icon="calendar" /><Field label="Start time" value={planner.meeting.time} onChange={(value) => updateMeeting('time', value)} type="time" icon="clock" /><Field label="Location" value={planner.meeting.location} onChange={(value) => updateMeeting('location', value)} icon="map-pin" /><Field label="Presiding leader" value={planner.meeting.presiding} onChange={(value) => updateMeeting('presiding', value)} icon="users" /><Field label="Conducting leader" value={planner.meeting.conducting} onChange={(value) => updateMeeting('conducting', value)} icon="users" /></div><div className="prayer-strip"><div className="prayer-strip-title"><span className="mini-icon"><Icon name="sparkle" size={15} /></span><span><strong>Prayers</strong><small>Assign the opening and closing prayers.</small></span></div><div className="prayer-fields"><label><span>Opening</span><input value={planner.meeting.openingPrayer} onChange={(event) => updateMeeting('openingPrayer', event.target.value)} /></label><span className="prayer-arrow">→</span><label><span>Closing</span><input value={planner.meeting.closingPrayer} onChange={(event) => updateMeeting('closingPrayer', event.target.value)} /></label></div></div></section>
@@ -373,7 +378,7 @@ function App() {
           </div>
         </>}</main>
       </div>
-      {toast && <div className="toast"><span className="toast-check">✓</span>{toast}</div>}
+      {toast && <div className="toast" role="status" aria-live="polite"><span className="toast-check">✓</span>{toast}</div>}
     </div>
   )
 }
