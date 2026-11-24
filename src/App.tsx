@@ -48,6 +48,9 @@ type IconName =
   | 'x'
 
 const STORAGE_KEY = 'mutungo-sacrament-planner-v1'
+const SESSION_KEY = 'mutungo-sacrament-planner-session-v1'
+const DEMO_EMAIL = 'planner@mutungoward.org'
+const DEMO_PASSWORD = 'sundayplan'
 
 const initialPlanner: PlannerState = {
   meeting: {
@@ -85,6 +88,14 @@ function loadPlanner(): PlannerState {
     return parsed
   } catch {
     return initialPlanner
+  }
+}
+
+function loadSession() {
+  try {
+    return window.sessionStorage.getItem(SESSION_KEY) === 'authenticated'
+  } catch {
+    return false
   }
 }
 
@@ -232,6 +243,39 @@ function PreviewRow({ item }: { item: ProgramItem }) {
   )
 }
 
+function SignIn({ onSignIn }: { onSignIn: () => void }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+      setError('Those details do not match the planner account.')
+      return
+    }
+    window.sessionStorage.setItem(SESSION_KEY, 'authenticated')
+    onSignIn()
+  }
+
+  return (
+    <main className="auth-shell">
+      <section className="auth-card" aria-labelledby="sign-in-title">
+        <div className="auth-brand"><div className="brand-mark">MW</div><div><span>Mutungo Ward</span><strong>Sacrament planner</strong></div></div>
+        <div className="auth-intro"><span className="eyebrow">PRIVATE WORKSPACE</span><h1 id="sign-in-title">Plan with peace of mind.</h1><p>Sign in to prepare, review, and print this Sunday&apos;s meeting program.</p></div>
+        <form className="auth-form" onSubmit={submit}>
+          <label><span>Email address</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="username" required /></label>
+          <label><span>Password</span><input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Enter your password" autoComplete="current-password" required /></label>
+          {error && <p className="auth-error" role="alert">{error}</p>}
+          <button className="button button-primary auth-submit" type="submit">Sign in to planner <Icon name="chevron-right" size={15} /></button>
+        </form>
+        <div className="auth-note"><Icon name="users" size={16} /><p><strong>Demo ward account</strong><span>Use <b>{DEMO_EMAIL}</b> and <b>{DEMO_PASSWORD}</b> for this coursework deployment.</span></p></div>
+        <p className="auth-footer">Your meeting plan stays in this browser with local storage.</p>
+      </section>
+    </main>
+  )
+}
+
 function Preview({ planner, onBack, onPrint, onCopy }: { planner: PlannerState; onBack: () => void; onPrint: () => void; onCopy: () => void }) {
   return (
     <div className="preview-view">
@@ -263,6 +307,7 @@ function Preview({ planner, onBack, onPrint, onCopy }: { planner: PlannerState; 
 }
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(loadSession)
   const [planner, setPlanner] = useState<PlannerState>(loadPlanner)
   const [isPreview, setIsPreview] = useState(false)
   const [addMenu, setAddMenu] = useState<'speaker' | 'music' | null>(null)
@@ -354,11 +399,19 @@ function App() {
     setToast('This order is saved as a reusable template.')
   }
 
+  const signOut = () => {
+    window.sessionStorage.removeItem(SESSION_KEY)
+    setIsAuthenticated(false)
+    setIsPreview(false)
+  }
+
+  if (!isAuthenticated) return <SignIn onSignIn={() => setIsAuthenticated(true)} />
+
   return (
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-lockup"><div className="brand-mark">MW</div><div><span>Mutungo Ward</span><strong>Sacrament planner</strong></div></div>
-        <div className="topbar-actions"><span className="save-status" role="status" aria-live="polite"><span className="save-dot" />{lastSaved}</span><button className="button button-primary button-top" type="button" onClick={() => setIsPreview(true)}><Icon name="layers" size={16} /> Preview program</button><button className="avatar" type="button" aria-label="Ward planner profile">PD</button></div>
+        <div className="topbar-actions"><span className="save-status" role="status" aria-live="polite"><span className="save-dot" />{lastSaved}</span><button className="button button-primary button-top" type="button" onClick={() => setIsPreview(true)}><Icon name="layers" size={16} /> Preview program</button><button className="avatar" type="button" aria-label="Sign out of ward planner" onClick={signOut}>PD</button></div>
       </header>
       <div className="workspace">
         <aside className="sidebar">
